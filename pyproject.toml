@@ -1,0 +1,35 @@
+[tool.ruff]
+line-length = 79
+target-version = "py312"
+
+exclude = [
+    ".venv1",
+    ".git",
+    "__pycache__",
+    "tests"
+]
+
+fix = true
+indent-width = 4
+src = ["core", "database", "main_directory", "routes", "services", "tests", "schemas"]
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "N"]
+ignore = [
+    "E402",
+    "F841",
+    "E712",
+    "E501",
+    "W505"
+]
+
+fixable = ["ALL"]
+unfixable = []
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
+skip-magic-trailing-comma = false
+line-ending = "auto"
+docstring-code-format = true
+docstring-code-line-length = 79
