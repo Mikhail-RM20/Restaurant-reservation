@@ -97,7 +97,7 @@ docker compose down
     | 1 | Язык | Python 3.13 |
     | 2 | Веб-фреймворк | FastAPI |
     | 3 | ORM | SQLAlchemy (асинхронный) |
-    | 4 | База данных | SQLite |
+    | 4 | База данных | SQLite + aiosqlite |
     | 5 | Контейнеризация | Docker, Docker Compose |
     | 6 | Веб-сервер | Uvicorn (внутри контейнера) |
     | 7 | Валидация | Pydantic v2 |
@@ -183,8 +183,7 @@ ruff=0.16.5
 
 ## Тестирование
 
-Проект покрыт интеграционными и unit-тестами (pytest). Для тестов используется
-SQLite in-memory (файловая), что позволяет запускать тесты без поднятия PostgreSQL.
+Проект покрыт интеграционными и unit-тестами (pytest).
 
 ```bash
 # Установка зависимостей для тестов
@@ -192,6 +191,7 @@ pip install pytest pytest-asyncio httpx aiosqlite
 
 # Запуск тестов
 pytest tests/ -v
+или из корня проекта командой pytest
 ```
 
 ### Что тестируется:
@@ -199,7 +199,7 @@ pytest tests/ -v
 - **База данных** — создание Person/Booking, каскадное удаление, Enum-статусы, NOT NULL-ограничения.
 - **Сервисы** — `add_new_booking`, `get_information_about_bookings`, `get_booking_by_id`, `delete_booking`.
   Проверяются позитивные сценарии, конфликты (409), 404, откат транзакций.
-- **Роуты** — end-to-end тесты через `httpx.AsyncClient`:
+- **Роуты**:
   - `POST /bookings` — 201, 409, 422
   - `GET /bookings` — 200 (пустой список, фильтр по дате, все записи), 422
   - `GET /bookings/{id}` — 200, 404, 422
@@ -379,5 +379,5 @@ GET /bookings?date=2026-09-10
 ## Примечания
 
 - При первом запуске через Docker таблицы создаются автоматически (`Base.metadata.create_all`).
-- Для локальной разработки без Docker убедитесь, что PostgreSQL запущен и `.env` настроен корректно.
+- Для локальной разработки без Docker убедитесь, что `.env` настроен корректно.
 - Все даты и время в API передаются в формате ISO 8601 (`YYYY-MM-DD`, `HH:MM`).
