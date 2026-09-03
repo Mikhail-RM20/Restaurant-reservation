@@ -171,6 +171,8 @@ packaging==25.0
 pluggy==1.6.0
 sniffio==1.3.1
 typing_extensions==4.16.0
+ruff=0.16.5
+
 
 ```
 
