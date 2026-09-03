@@ -57,7 +57,7 @@ SQLAlchemy (async), SQLite и Docker.
 1. Создайте файл `.env` в корне проекта со следующим содержимым:
 
 ```env
-DATABASE_URL="Ваш путь к БД"
+DATABASE_URL="DATABASE_URL="sqlite+aiosqlite:///./<Название вашей БД>"
 ```
 
 2. Запустите контейнеры:
