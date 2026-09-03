@@ -360,7 +360,7 @@ GET /bookings?date=2026-09-10
     | `booking_date` | Date, NOT NULL | Дата бронирования |
     | `booking_time` | Time, NOT NULL | Время бронирования |
     | `guests` | Integer, NOT NULL | Количество гостей |
-    | `status` | Enum | `Ожидает/Pending`, `Создана/Confirmed`, `Отменена/Cancelled` |
+    | `status` | Enum |  `active`, `cancelled` |
 
 ---
 
