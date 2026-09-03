@@ -3,6 +3,7 @@ import logging.config
 from core import dict_config
 from database import Booking, BookingStatus, Person
 from fastapi import HTTPException, status
+from shemas import BookingCreateIn
 from sqlalchemy import select
 from sqlalchemy.exc import IntegrityError, SQLAlchemyError
 from sqlalchemy.ext.asyncio import AsyncSession
@@ -14,7 +15,7 @@ main_log.setLevel(logging.DEBUG)
 
 
 async def add_new_booking(
-    information_booking, db: AsyncSession
+    information_booking: BookingCreateIn, db: AsyncSession
 ) -> tuple[Booking, Person]:
     """
     Создаёт нового человека и новую бронь в базе данных.
@@ -105,7 +106,9 @@ async def add_new_booking(
         raise
 
     except IntegrityError as e:
-        main_log.exception("Ошибка целостности данных при создании брони: %s", e)
+        main_log.exception(
+            "Ошибка целостности данных при создании брони: %s", e
+        )
         await db.rollback()
         raise HTTPException(
             status_code=status.HTTP_409_CONFLICT,

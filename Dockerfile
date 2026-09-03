@@ -10,7 +10,7 @@ COPY core /app/core/
 COPY database /app/database/
 COPY main_directory /app/main_directory/
 COPY routes /app/routes/
-COPY schemas /app/schemas/
+COPY shemas /app/shemas/
 COPY services /app/services/
 COPY tests /app/tests/
 

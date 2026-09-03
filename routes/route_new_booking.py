@@ -3,8 +3,8 @@ import logging.config
 from core import dict_config
 from database import BookingStatus, get_db
 from fastapi import APIRouter, Depends, HTTPException, status
-from schemas import BookingCreateIn, BookingCreateOut
 from services import add_new_booking
+from shemas import BookingCreateIn, BookingCreateOut
 from sqlalchemy.ext.asyncio import AsyncSession
 
 logging.config.dictConfig(dict_config)
@@ -64,7 +64,7 @@ async def new_booking(
             booking_date=booking.booking_date,
             booking_time=booking.booking_time,
             guests=booking.guests,
-            status=BookingStatus.active ,
+            status=BookingStatus.active,
         )
 
     except HTTPException as e:

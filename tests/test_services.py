@@ -4,7 +4,7 @@ import pytest
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from database import BookingStatus, Person, Booking
-from schemas import BookingCreateIn
+from shemas import BookingCreateIn
 from services import add_new_booking, get_information_about_bookings, get_booking_by_id, delete_booking
 
 

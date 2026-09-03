@@ -60,9 +60,10 @@ async def get_booking_by_id(
         )
         return booking, person
 
-    except SQLAlchemyError :
+    except SQLAlchemyError:
         main_log.exception(
-            "Ошибка БД при поиске брони id=%s: %s", booking_id,
+            "Ошибка БД при поиске брони id=%s:",
+            booking_id,
         )
         await db.rollback()
         raise HTTPException(

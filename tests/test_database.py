@@ -5,7 +5,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from database import Base, get_db
 from database import Person, Booking, BookingStatus
-from schemas import BookingCreateIn, BookingCreateOut
+from shemas import BookingCreateIn, BookingCreateOut
 
 
 class TestDatabase:

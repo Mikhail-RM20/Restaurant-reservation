@@ -45,7 +45,9 @@ async def delete_booking(
         row = result.first()
 
         if row is None:
-            main_log.info("Бронь для отмены не найдена: booking_id=%s", booking_id)
+            main_log.info(
+                "Бронь для отмены не найдена: booking_id=%s", booking_id
+            )
             raise HTTPException(
                 status_code=status.HTTP_404_NOT_FOUND,
                 detail="Бронь не найдена. / Booking not found.",
@@ -81,7 +83,9 @@ async def delete_booking(
         raise
 
     except SQLAlchemyError as e:
-        main_log.exception("Ошибка БД при отмене брони id=%s: %s", booking_id, e)
+        main_log.exception(
+            "Ошибка БД при отмене брони id=%s: %s", booking_id, e
+        )
         await db.rollback()
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,

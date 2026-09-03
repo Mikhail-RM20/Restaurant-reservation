@@ -3,8 +3,8 @@ import logging.config
 from core import dict_config
 from database import get_db
 from fastapi import APIRouter, Depends, HTTPException
-from schemas import BookingCreateOut
 from services import delete_booking
+from shemas import BookingCreateOut
 from sqlalchemy.ext.asyncio import AsyncSession
 
 logging.config.dictConfig(dict_config)

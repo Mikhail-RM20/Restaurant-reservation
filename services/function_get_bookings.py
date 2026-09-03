@@ -5,7 +5,7 @@ from typing import Optional
 from core import dict_config
 from database import Booking, Person
 from fastapi import HTTPException, status
-from sqlalchemy import select, func
+from sqlalchemy import func, select
 from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy.ext.asyncio import AsyncSession
 
@@ -49,11 +49,11 @@ async def get_information_about_bookings(
                 booking_date,
             )
             # ← ЯВНО приводим к дате на уровне SQL
-            stmt = stmt.where(
-                func.date(Booking.booking_date) == booking_date
-            )
+            stmt = stmt.where(func.date(Booking.booking_date) == booking_date)
         else:
-            main_log.info("Фильтр по дате не применяется, возвращаем все брони")
+            main_log.info(
+                "Фильтр по дате не применяется, возвращаем все брони"
+            )
 
         # Отладка: посмотри, какой SQL уходит в БД
         print("SQL:", stmt.compile(compile_kwargs={"literal_binds": True}))

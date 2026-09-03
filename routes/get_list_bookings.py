@@ -4,9 +4,9 @@ from typing import Optional
 
 from core import dict_config
 from database import get_db
-from fastapi import APIRouter, Depends, HTTPException, status, Query
-from schemas import BookingCreateOut
+from fastapi import APIRouter, Depends, HTTPException, Query, status
 from services import get_information_about_bookings
+from shemas import BookingCreateOut
 from sqlalchemy.ext.asyncio import AsyncSession
 
 logging.config.dictConfig(dict_config)

@@ -114,6 +114,8 @@ docker compose down
 │   ├── __init__.py
 │   ├── base.py                    # Асинхронный движок, Base, get_db
 │   └── models.py                  # Модели Person, Booking, BookingStatus
+├── main_directory/                # Главная дирректория
+    ├── main.py                    # Файл запуска
 ├── routes/                        # Роутеры FastAPI (эндпоинты)
 │   ├── __init__.py
 │   ├── route_new_booking.py       # POST /bookings
@@ -125,7 +127,7 @@ docker compose down
 │   ├── function_get_bookings.py
 │   ├── function_get_booking_by_id.py
 │   └── function_delete_booking_by_id.py
-├── schemas/                       # Pydantic-схемы (валидация входных/выходных данных)
+├── shemas/                       # Pydantic-схемы (валидация входных/выходных данных)
 │   ├── __init__.py
 │   └── pydantic_shemas.py         # BookingCreateIn, BookingCreateOut
 ├── tests/                         # Интеграционные и unit-тесты (pytest)

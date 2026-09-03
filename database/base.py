@@ -8,7 +8,9 @@ from sqlalchemy.ext.asyncio import (
 )
 from sqlalchemy.orm import declarative_base
 
-DATABASE_URL = os.getenv("DATABASE_URL", "sqlite+aiosqlite:////app/data/app.db")
+DATABASE_URL = os.getenv(
+    "DATABASE_URL", "sqlite+aiosqlite:////app/data/app.db"
+)
 
 engine = create_async_engine(DATABASE_URL, echo=True)
 Base = declarative_base()
