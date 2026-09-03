@@ -1,7 +1,13 @@
 from datetime import date, datetime, time, timedelta
 
 from database import BookingStatus
-from pydantic import BaseModel, Field, field_validator, model_validator, ConfigDict
+from pydantic import (
+    BaseModel,
+    ConfigDict,
+    Field,
+    field_validator,
+    model_validator,
+)
 
 BOOKING_TIMES = {
     time(12, 0),
