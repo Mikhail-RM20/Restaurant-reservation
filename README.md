@@ -237,7 +237,7 @@ pytest tests/ -v
   "booking_date": "2026-09-10",
   "booking_time": "19:00",
   "guests": 4,
-  "status": "Создана/Confirmed"
+  "status": "active"
 }
 ```
 
@@ -270,7 +270,7 @@ GET /bookings?date=2026-09-10
     "booking_date": "2026-09-10",
     "booking_time": "19:00",
     "guests": 4,
-    "status": "Создана/Confirmed"
+    "status": "active"
   }
 ]
 ```
@@ -296,7 +296,7 @@ GET /bookings?date=2026-09-10
   "booking_date": "2026-09-10",
   "booking_time": "19:00",
   "guests": 4,
-  "status": "Создана/Confirmed"
+  "status": "active"
 }
 ```
 
@@ -323,7 +323,7 @@ GET /bookings?date=2026-09-10
   "booking_date": "2026-09-10",
   "booking_time": "19:00",
   "guests": 4,
-  "status": "Отменена/Cancelled"
+  "status": "cancelled"
 }
 ```
 
