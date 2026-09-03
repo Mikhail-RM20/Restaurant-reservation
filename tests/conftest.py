@@ -1,8 +1,4 @@
-import os
 
-os.environ.setdefault("POSTGRES_USER", "test_user")
-os.environ.setdefault("POSTGRES_PASSWORD", "test_pass")
-os.environ.setdefault("POSTGRES_DB", "test_db")
 
 import pytest
 import pytest_asyncio
