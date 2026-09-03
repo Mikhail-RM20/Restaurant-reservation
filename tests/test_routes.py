@@ -18,7 +18,7 @@ class TestRoutes:
 
         data = response.json()
         assert data["name"] == sample_booking_in.name
-        assert data["status"] == BookingStatus.confirmed.value
+        assert data["status"] == BookingStatus.active.value
 
     @pytest.mark.asyncio
     async def test_route_create_booking_duplicate(self, client: AsyncClient, sample_booking_in):
@@ -80,7 +80,7 @@ class TestRoutes:
             booking_date=target_date,
             booking_time=time(18, 0),
             guests=2,
-            status=BookingStatus.confirmed,
+            status=BookingStatus.active,
         ))
         await db_session.commit()
 
@@ -104,7 +104,7 @@ class TestRoutes:
                 booking_date=date.today() + timedelta(days=2),
                 booking_time=time(h, 0),
                 guests=1,
-                status=BookingStatus.pending,
+                status=BookingStatus.active,
             ))
         await db_session.commit()
 
@@ -133,7 +133,7 @@ class TestRoutes:
             booking_date=date.today(),
             booking_time=time(20, 0),
             guests=4,
-            status=BookingStatus.confirmed,
+            status=BookingStatus.active,
         )
         db_session.add(booking)
         await db_session.commit()
@@ -170,7 +170,7 @@ class TestRoutes:
             booking_date=date.today(),
             booking_time=time(21, 0),
             guests=6,
-            status=BookingStatus.confirmed,
+            status=BookingStatus.active,
         )
         db_session.add(booking)
         await db_session.commit()
@@ -204,14 +204,15 @@ class TestRoutes:
             booking_date=date.today(),
             booking_time=time(22, 0),
             guests=1,
-            status=BookingStatus.cancelled,
+            status=BookingStatus.active,
         )
         db_session.add(booking)
         await db_session.commit()
         await db_session.refresh(booking)
 
-        response = await client.delete(f"/bookings/{booking.id}")
-        assert response.status_code == 200
+        r1 = await client.delete(f"/bookings/{booking.id}")
+        assert r1.status_code == 200
+        assert r1.json()["status"] == BookingStatus.cancelled.value
 
-        data = response.json()
-        assert data["status"] == BookingStatus.cancelled.value
+        r2 = await client.delete(f"/bookings/{booking.id}")
+        assert r2.status_code == 409

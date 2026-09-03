@@ -8,12 +8,27 @@ SQLAlchemy (async), PostgreSQL и Docker.
 
 ---
 
+# Принятые решения
+Я привёл код и тесты к одному набору статусов: active для активной брони и cancelled для отменённой.
+В проверке создания брони добавил фильтр только по активным записям, чтобы после отмены можно было забронировать это же время снова.
+В функции отмены оставил soft delete через смену статуса, потому что это сохраняет историю брони.
+Тесты поправил под текущую бизнес-логику: успешная отмена проверяется на активной брони, а повторная отмена — как ошибка.
+
+---
+
+# Чтобы я доделал и почему
+ Я бы добавил в идеале фиксированное кол-во столиков, условно 30 штук.
+ Ибо в действительности в ресторанах и кафе места всегда ограничены.
+ Так же добавил бы столики на определенное кол-во персон, Например только для 2, 4, 6 или для большой компании на 8 человек
+---
+
 ## ПРЕДВАРИТЕЛЬНЫЕ ТРЕБОВАНИЯ ДЛЯ ЗАПУСКА ПРОЕКТА:
 
 1. Установленные Docker и Docker Compose.
 2. Python 3.12+ (для локального запуска без Docker).
 
 ---
+
 
 В проекте используется Ruff — быстрый линтер и форматер, заменяющий flake8, black и isort.
 Настройки находятся в pyproject.toml.
@@ -39,9 +54,7 @@ SQLAlchemy (async), PostgreSQL и Docker.
 1. Создайте файл `.env` в корне проекта со следующим содержимым:
 
 ```env
-POSTGRES_USER=your_login          (Замените на свой логин)
-POSTGRES_PASSWORD=your_password   (Замените на свой пароль)
-POSTGRES_DB=restaurant_db
+DATABASE_URL="Ваш путь к БД"
 ```
 
 2. Запустите контейнеры:
@@ -131,159 +144,31 @@ docker compose down
 ## Зависимости проекта
 
 ```
-aiohappyeyeballs==2.6.1
-aiohttp==3.12.15
-aiosignal==1.4.0
-aiosqlite==0.22.1
-annotated-doc==0.0.5
-annotated-types==0.8.0
-anthropic==0.124.0
-anyio==4.14.2
-argon2-cffi==25.1.0
-argon2-cffi-bindings==25.1.0
-arrow==1.4.0
-asttokens==3.0.1
-async-lru==2.1.0
-asyncpg==0.31.0
-attrs==25.3.0
-babel==2.18.0
-beautifulsoup4==4.14.3
-black==26.5.1
-bleach==6.3.0
-blinker==1.9.0
-certifi==2026.7.22
-cffi==2.0.0
-cfgv==3.5.0
-charset-normalizer==3.4.3
-click==8.4.2
-colorama==0.4.6
-comm==0.2.3
-debugpy==1.8.20
-decorator==5.2.1
-defusedxml==0.7.1
-distlib==0.4.3
-distro==1.9.0
-docker==7.1.0
-docstring_parser==0.18.0
-dotenv==0.9.9
-executing==2.2.1
 fastapi==0.141.1
-fastjsonschema==2.21.2
-filelock==3.32.3
-flake8==7.3.0
-Flask==3.1.2
-fqdn==1.5.1
-frozenlist==1.7.0
-greenlet==3.5.5
-gunicorn==25.3.0
-h11==0.16.0
-httpcore==1.0.9
-httpx==0.28.1
-identify==2.6.19
-idna==3.19
-iniconfig==2.1.0
-ipykernel==7.2.0
-ipython==9.10.0
-ipython_pygments_lexers==1.1.1
-isoduration==20.11.0
-isort==8.0.1
-itsdangerous==2.2.0
-jedi==0.19.2
-Jinja2==3.1.6
-jiter==0.16.0
-json5==0.13.0
-jsonpointer==3.0.0
-jsonschema==4.26.0
-jsonschema-specifications==2025.9.1
-jupyter-events==0.12.0
-jupyter-lsp==2.3.0
-jupyter_client==8.8.0
-jupyter_core==5.9.1
-jupyter_server==2.17.0
-jupyter_server_terminals==0.5.4
-jupyterlab==4.5.4
-jupyterlab_pygments==0.3.0
-jupyterlab_server==2.28.0
-lark==1.3.1
-MarkupSafe==3.0.2
-matplotlib-inline==0.2.1
-mccabe==0.7.0
-mistune==3.2.0
-multidict==6.6.4
-mypy_extensions==1.1.0
-nbclient==0.10.4
-nbconvert==7.17.0
-nbformat==5.10.4
-nest-asyncio==1.6.0
-nodeenv==1.10.0
-notebook==7.5.3
-notebook_shim==0.2.4
-packaging==25.0
-pandocfilters==1.5.1
-parso==0.8.6
-pathspec==1.1.1
-platformdirs==4.9.1
-pluggy==1.6.0
-postgres==4.0
-pre_commit==4.6.2
-prometheus_client==0.24.1
-prompt_toolkit==3.0.52
-propcache==0.3.2
-psutil==7.2.2
-psycopg2-binary==2.9.12
-psycopg2-pool==1.2
-pure_eval==0.2.3
-pycodestyle==2.14.0
-pycparser==3.0
+uvicorn==0.52.4
+starlette==1.6.0
 pydantic==2.13.4
 pydantic_core==2.46.4
-pyflakes==3.4.0
-Pygments==2.19.2
-PyPDF2==3.0.1
-pyTelegramBotAPI==4.29.0
+annotated-types==0.8.0
+SQLAlchemy==2.0.52
+asyncpg==0.31.0
+aiosqlite==0.22.1
+greenlet==3.5.5
+httpx==0.28.1
+httpcore==1.0.9
 pytest==8.4.1
 pytest-asyncio==1.4.0
-python-dateutil==2.9.0.post0
-python-discovery==1.5.2
 python-dotenv==1.1.1
-python-json-logger==4.0.0
 python-multipart==0.0.32
-pytokens==0.4.1
-PyYAML==6.0.3
-pyzmq==27.1.0
-referencing==0.37.0
-requests==2.32.5
-rfc3339-validator==0.1.4
-rfc3986-validator==0.1.1
-rfc3987-syntax==1.1.0
-rpds-py==0.30.0
-Send2Trash==2.1.0
-setuptools==82.0.0
-six==1.17.0
+anyio==4.14.2
+certifi==2026.7.22
+h11==0.16.0
+idna==3.19
+iniconfig==2.1.0
+packaging==25.0
+pluggy==1.6.0
 sniffio==1.3.1
-soupsieve==2.8.3
-SQLAlchemy==2.0.52
-stack-data==0.6.3
-starlette==1.6.0
-tabulate==0.10.0
-terminado==0.18.1
-tinycss2==1.4.0
-tornado==6.5.4
-traitlets==5.14.3
-typing-inspection==0.4.4
 typing_extensions==4.16.0
-tzdata==2025.3
-uri-template==1.3.0
-urllib3==2.5.0
-uvicorn==0.52.4
-virtualenv==21.7.4
-wcwidth==0.6.0
-webcolors==25.10.0
-webencodings==0.5.1
-websocket-client==1.9.0
-Werkzeug==3.1.3
-wheel==0.45.1
-yarl==1.20.1
 
 ```
 

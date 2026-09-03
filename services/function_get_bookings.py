@@ -5,7 +5,7 @@ from typing import Optional
 from core import dict_config
 from database import Booking, Person
 from fastapi import HTTPException, status
-from sqlalchemy import select
+from sqlalchemy import select, func
 from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy.ext.asyncio import AsyncSession
 
@@ -42,19 +42,28 @@ async def get_information_about_bookings(
         stmt = select(Booking, Person).join(
             Person, Booking.person_id == Person.id
         )
-        main_log.info(
-            "Применяется фильтр по дате бронирования: booking_date=%s",
-            booking_date,
-        )
+
         if booking_date is not None:
-            stmt = stmt.where(Booking.booking_date == booking_date)
+            main_log.info(
+                "Применяется фильтр по дате бронирования: booking_date=%s",
+                booking_date,
+            )
+            # ← ЯВНО приводим к дате на уровне SQL
+            stmt = stmt.where(
+                func.date(Booking.booking_date) == booking_date
+            )
+        else:
+            main_log.info("Фильтр по дате не применяется, возвращаем все брони")
+
+        # Отладка: посмотри, какой SQL уходит в БД
+        print("SQL:", stmt.compile(compile_kwargs={"literal_binds": True}))
 
         result = await db.execute(stmt)
         bookings = result.all()
+
         main_log.info(
-            "Список бронирований получен успешно. count=%s, booking_date=%s",
+            "Список бронирований получен успешно. count=%s",
             len(bookings),
-            booking_date,
         )
         return bookings
 

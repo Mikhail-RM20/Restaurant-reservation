@@ -64,7 +64,7 @@ async def new_booking(
             booking_date=booking.booking_date,
             booking_time=booking.booking_time,
             guests=booking.guests,
-            status=BookingStatus.confirmed,
+            status=BookingStatus.active ,
         )
 
     except HTTPException as e:

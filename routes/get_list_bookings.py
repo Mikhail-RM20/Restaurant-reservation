@@ -4,7 +4,7 @@ from typing import Optional
 
 from core import dict_config
 from database import get_db
-from fastapi import APIRouter, Depends, HTTPException, status
+from fastapi import APIRouter, Depends, HTTPException, status, Query
 from schemas import BookingCreateOut
 from services import get_information_about_bookings
 from sqlalchemy.ext.asyncio import AsyncSession
@@ -23,7 +23,12 @@ router = APIRouter()
     status_code=status.HTTP_200_OK,
 )
 async def get_bookings(
-    date: Optional[date] = None, db: AsyncSession = Depends(get_db)
+    date: Optional[date] = Query(
+        default=None,
+        description="Фильтр по дате (YYYY-MM-DD)",
+        examples=["2026-09-10"],
+    ),
+    db: AsyncSession = Depends(get_db),
 ):
     """
     Возвращает список бронирований.

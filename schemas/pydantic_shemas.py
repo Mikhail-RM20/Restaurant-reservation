@@ -125,4 +125,4 @@ class BookingCreateOut(BaseModel):
     status: BookingStatus = Field(
         ...,
         title="Статус брони. / Booking status",
-    )
+    ) # Берем из базы

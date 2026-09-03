@@ -7,9 +7,8 @@ from .base import Base
 
 
 class BookingStatus(str, PyEnum):
-    pending = "Ожидает/Pending"
-    confirmed = "Создана/Confirmed"
-    cancelled = "Отменена/Cancelled"
+    active = "active"
+    cancelled = "cancelled"
 
 
 class Person(Base):
@@ -42,7 +41,7 @@ class Booking(Base):
     status: Mapped[BookingStatus] = mapped_column(
         Enum(BookingStatus),
         nullable=False,
-        default=BookingStatus.pending,
+        default=BookingStatus.active,
     )
 
     person: Mapped["Person"] = relationship(back_populates="bookings")

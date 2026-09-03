@@ -48,6 +48,7 @@ async def add_new_booking(
         stmt = select(Booking).where(
             Booking.booking_date == information_booking.booking_date,
             Booking.booking_time == information_booking.booking_time,
+            Booking.status == BookingStatus.active,
         )
         result = await db.execute(stmt)
         existing_booking = result.scalar_one_or_none()
@@ -84,7 +85,7 @@ async def add_new_booking(
             booking_date=information_booking.booking_date,
             booking_time=information_booking.booking_time,
             guests=information_booking.guests,
-            status=BookingStatus.confirmed,
+            status=BookingStatus.active,
         )
         db.add(booking)
 
@@ -104,9 +105,7 @@ async def add_new_booking(
         raise
 
     except IntegrityError as e:
-        main_log.exception(
-            "Ошибка целостности данных при создании брони: %s", e
-        )
+        main_log.exception("Ошибка целостности данных при создании брони: %s", e)
         await db.rollback()
         raise HTTPException(
             status_code=status.HTTP_409_CONFLICT,

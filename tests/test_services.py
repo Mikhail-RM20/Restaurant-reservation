@@ -19,7 +19,7 @@ class TestServices:
         booking, person = await add_new_booking(sample_booking_in, db_session)
         assert booking.id is not None
         assert person.name == sample_booking_in.name
-        assert booking.status == BookingStatus.confirmed
+        assert booking.status == BookingStatus.active
 
     @pytest.mark.asyncio
     async def test_add_new_booking_duplicate_time(self, db_session: AsyncSession, sample_booking_in):
@@ -76,8 +76,8 @@ class TestServices:
         d1 = date.today() + timedelta(days=2)
         d2 = date.today() + timedelta(days=3)
 
-        b1 = Booking(person_id=person.id, booking_date=d1, booking_time=time(12, 0), guests=1, status=BookingStatus.confirmed)
-        b2 = Booking(person_id=person.id, booking_date=d2, booking_time=time(13, 0), guests=2, status=BookingStatus.confirmed)
+        b1 = Booking(person_id=person.id, booking_date=d1, booking_time=time(12, 0), guests=1, status=BookingStatus.active)
+        b2 = Booking(person_id=person.id, booking_date=d2, booking_time=time(13, 0), guests=2, status=BookingStatus.active)
         db_session.add_all([b1, b2])
         await db_session.commit()
 
@@ -98,7 +98,7 @@ class TestServices:
                 booking_date=date.today() + timedelta(days=1),
                 booking_time=time(h, 0),
                 guests=1,
-                status=BookingStatus.pending,
+                status=BookingStatus.active,
             ))
         await db_session.commit()
 
@@ -119,7 +119,7 @@ class TestServices:
             booking_date=date.today(),
             booking_time=time(18, 0),
             guests=3,
-            status=BookingStatus.confirmed,
+            status=BookingStatus.active,
         )
         db_session.add(booking)
         await db_session.commit()
@@ -145,8 +145,7 @@ class TestServices:
     # ======================= delete_booking =======================
 
     @pytest.mark.asyncio
-    async def test_delete_booking_success(self, db_session: AsyncSession):
-        """Позитив: отмена брони меняет статус на cancelled."""
+    async def test_delete_booking_already_cancelled(self, db_session: AsyncSession):
         person = Person(name="Удаление", phone="85555555555")
         db_session.add(person)
         await db_session.flush()
@@ -156,14 +155,15 @@ class TestServices:
             booking_date=date.today(),
             booking_time=time(19, 0),
             guests=5,
-            status=BookingStatus.confirmed,
+            status=BookingStatus.cancelled,
         )
         db_session.add(booking)
         await db_session.commit()
 
-        b, p = await delete_booking(booking.id, db_session)
-        assert b.status == BookingStatus.cancelled
-        assert p.name == "Удаление"
+        with pytest.raises(Exception) as exc_info:
+            await delete_booking(booking.id, db_session)
+
+        assert exc_info.value.status_code == 409
 
     @pytest.mark.asyncio
     async def test_delete_booking_not_found(self, db_session: AsyncSession):
@@ -174,7 +174,6 @@ class TestServices:
 
     @pytest.mark.asyncio
     async def test_delete_booking_idempotent_status(self, db_session: AsyncSession):
-
         person = Person(name="Повтор", phone="86666666666")
         db_session.add(person)
         await db_session.flush()
@@ -189,6 +188,7 @@ class TestServices:
         db_session.add(booking)
         await db_session.commit()
 
-        b, p = await delete_booking(booking.id, db_session)
-        assert b.status == BookingStatus.cancelled
+        with pytest.raises(Exception) as exc_info:
+            await delete_booking(booking.id, db_session)
 
+        assert exc_info.value.status_code == 409

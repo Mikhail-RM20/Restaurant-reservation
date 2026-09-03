@@ -45,15 +45,20 @@ async def delete_booking(
         row = result.first()
 
         if row is None:
-            main_log.info(
-                "Бронь для отмены не найдена: booking_id=%s", booking_id
-            )
+            main_log.info("Бронь для отмены не найдена: booking_id=%s", booking_id)
             raise HTTPException(
                 status_code=status.HTTP_404_NOT_FOUND,
                 detail="Бронь не найдена. / Booking not found.",
             )
 
         booking, person = row
+
+        if booking.status == BookingStatus.cancelled:
+            main_log.info("Бронь уже отменена: booking_id=%s", booking_id)
+            raise HTTPException(
+                status_code=status.HTTP_409_CONFLICT,
+                detail="Бронь уже отменена. / Booking already cancelled.",
+            )
 
         booking.status = BookingStatus.cancelled
         main_log.info(
@@ -71,10 +76,12 @@ async def delete_booking(
 
         return booking, person
 
+    except HTTPException:
+        await db.rollback()
+        raise
+
     except SQLAlchemyError as e:
-        main_log.exception(
-            "Ошибка БД при отмене брони id=%s: %s", booking_id, e
-        )
+        main_log.exception("Ошибка БД при отмене брони id=%s: %s", booking_id, e)
         await db.rollback()
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,

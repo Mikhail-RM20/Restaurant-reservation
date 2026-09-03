@@ -1,35 +1,12 @@
 services:
-  postgres:
-    image: postgres:15
-    container_name: restaurant_postgres
-    environment:
-      POSTGRES_USER: ${POSTGRES_USER}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
-      POSTGRES_DB: ${POSTGRES_DB}
-    ports:
-      - "5432:5432"
-    volumes:
-      - postgres_data:/var/lib/postgresql/data
-    healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
-      interval: 5s
-      timeout: 5s
-      retries: 5
-
   fastapi:
     build: .
     container_name: restaurant_fastapi_container
-    depends_on:
-      postgres:
-        condition: service_healthy
-    env_file:
-      - .env
     environment:
-      DATABASE_URL: "postgresql+asyncpg://${POSTGRES_USER}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB}"
+      DATABASE_URL: "sqlite+aiosqlite:////app/data/app.db"
     ports:
       - "8001:8001"
-    command: uvicorn main_directory.main:app --host 0.0.0.0 --port 8001   # ← команда
+    volumes:
+      - ./data:/app/data
+    command: uvicorn main_directory.main:app --host 0.0.0.0 --port 8001
     restart: unless-stopped
-
-volumes:
-  postgres_data:
