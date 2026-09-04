@@ -128,7 +128,7 @@ docker compose down
 │   ├── function_get_bookings.py
 │   ├── function_get_booking_by_id.py
 │   └── function_delete_booking_by_id.py
-├── shemas/                       # Pydantic-схемы (валидация входных/выходных данных)
+├── schemas/                       # Pydantic-схемы (валидация входных/выходных данных)
 │   ├── __init__.py
 │   └── pydantic_shemas.py         # BookingCreateIn, BookingCreateOut
 ├── tests/                         # Интеграционные и unit-тесты (pytest)
