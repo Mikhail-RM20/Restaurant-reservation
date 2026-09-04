@@ -29,7 +29,7 @@ SQLAlchemy (async), SQLite и Docker.
 ## ПРЕДВАРИТЕЛЬНЫЕ ТРЕБОВАНИЯ ДЛЯ ЗАПУСКА ПРОЕКТА:
 
 1. Установленные Docker и Docker Compose.
-2. Python 3.12+ (для локального запуска без Docker).
+2. Python 3.12+
 
 ---
 
