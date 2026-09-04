@@ -28,14 +28,12 @@ class BookingCreateIn(BaseModel):
     name: str = Field(
         ...,
         title="Имя человека. / Name person.",
-        description="Имя человека, для создания брони. / The person’s name for creating an order. ",
         min_length=2,
         pattern=r"^[A-Za-zА-Яа-яЁё\s-]+$",
     )
     phone: str = Field(
         ...,
         title="Номер телефона человека. / Phone number person.",
-        description="Номер телефона человека для создания брони. / The person’s phone number for making a reservation. ",
         pattern=r"^(?:\+7|8)\d{10}$",
     )
     booking_date: date = Field(
@@ -100,7 +98,6 @@ class BookingCreateOut(BookingCreateIn):
     id: int = Field(
         ...,
         title="ID-брони. / ID‑booking.",
-        description="ID бронирования, которое выбрал пользователь. / The booking ID that the user selected.",
     )
     status: BookingStatus = Field(
         ...,
