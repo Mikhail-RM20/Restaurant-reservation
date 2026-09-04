@@ -11,7 +11,7 @@ exclude = [
 
 fix = true
 indent-width = 4
-src = ["core", "database", "main_directory", "routes", "services", "tests", "shemas"]
+src = ["core", "database", "main_directory", "routes", "services", "tests", "schemas"]
 
 [tool.ruff.lint]
 select = ["E", "F", "W", "I", "N"]
