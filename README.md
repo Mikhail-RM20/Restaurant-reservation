@@ -58,7 +58,7 @@ SQLAlchemy (async), SQLite и Docker.
 1. Создайте файл `.env` в корне проекта со следующим содержимым:
 
 ```env
-DATABASE_URL="DATABASE_URL="sqlite+aiosqlite:///./<Название вашей БД>"
+DATABASE_URL="sqlite+aiosqlite:///./<Название вашей БД>"
 ```
 
 2. Запустите контейнеры:
@@ -296,7 +296,7 @@ GET /bookings?date=2026-09-10
 **HTTP Params:**
 - `id` (URL) — ID бронирования
 
-**Ответ (200 OK):**
+**Ответ (409):**
 ```json
 {
   "id": 1,
