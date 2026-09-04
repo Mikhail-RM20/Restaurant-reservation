@@ -4,7 +4,7 @@ from core import dict_config
 from database import get_db
 from fastapi import APIRouter, Depends, HTTPException, status
 from services import get_booking_by_id
-from shemas import BookingCreateOut
+from schemas import BookingCreateOut
 from sqlalchemy.ext.asyncio import AsyncSession
 
 logging.config.dictConfig(dict_config)
@@ -57,6 +57,7 @@ async def get_booking_table_by_id(
         return BookingCreateOut(
             id=booking.id,
             name=person.name,
+            phone=person.phone,
             booking_date=booking.booking_date,
             booking_time=booking.booking_time,
             guests=booking.guests,

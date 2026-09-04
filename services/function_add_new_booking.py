@@ -3,7 +3,7 @@ import logging.config
 from core import dict_config
 from database import Booking, BookingStatus, Person
 from fastapi import HTTPException, status
-from shemas import BookingCreateIn
+from schemas import BookingCreateIn
 from sqlalchemy import select
 from sqlalchemy.exc import IntegrityError, SQLAlchemyError
 from sqlalchemy.ext.asyncio import AsyncSession

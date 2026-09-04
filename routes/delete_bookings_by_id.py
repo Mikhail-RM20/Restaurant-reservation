@@ -4,7 +4,7 @@ from core import dict_config
 from database import get_db
 from fastapi import APIRouter, Depends, HTTPException
 from services import delete_booking
-from shemas import BookingCreateOut
+from schemas import BookingCreateOut
 from sqlalchemy.ext.asyncio import AsyncSession
 
 logging.config.dictConfig(dict_config)
@@ -50,6 +50,7 @@ async def delete_booking_by_id(id: int, db: AsyncSession = Depends(get_db)):
         return BookingCreateOut(
             id=booking.id,
             name=person.name,
+            phone=person.phone,
             booking_date=booking.booking_date,
             booking_time=booking.booking_time,
             guests=booking.guests,

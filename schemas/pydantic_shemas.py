@@ -94,33 +94,13 @@ class BookingCreateIn(BaseModel):
     )
 
 
-class BookingCreateOut(BaseModel):
+class BookingCreateOut(BookingCreateIn):
     model_config = ConfigDict(from_attributes=True, use_enum_values=True)
 
     id: int = Field(
         ...,
         title="ID-брони. / ID‑booking.",
         description="ID бронирования, которое выбрал пользователь. / The booking ID that the user selected.",
-    )
-    name: str = Field(
-        ...,
-        title="Имя человека. / Name person.",
-        description="Имя человека, к которому привязана бронь. / The name of the person to whom the reservation is linked.",
-    )
-    booking_date: date = Field(
-        ...,
-        title="Дата бронирования. / Booking date",
-        description="Дата бронирования, которую выбрал человек. / The booking date chosen by the person.",
-    )
-    booking_time: time = Field(
-        ...,
-        title="Время бронирования. / Booking time",
-        description="Время бронирования, которое выбрал человек. / The booking time chosen by the person.",
-    )
-    guests: int = Field(
-        ...,
-        title="Кол-во гостей. / Number of guests.",
-        description="Информация о кол-ве гостей, которые придут. / Information about the number of guests who will be attending.",
     )
     status: BookingStatus = Field(
         ...,

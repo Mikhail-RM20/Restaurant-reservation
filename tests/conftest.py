@@ -9,7 +9,7 @@ from sqlalchemy.pool import StaticPool
 
 from main_directory.main import app
 from database import Base, get_db
-from shemas import BookingCreateIn
+from schemas import BookingCreateIn
 
 TEST_DATABASE_URL = "sqlite+aiosqlite:///:memory:"
 
