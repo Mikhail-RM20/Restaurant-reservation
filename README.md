@@ -241,6 +241,7 @@ pytest tests/ -v
 {
   "id": 1,
   "name": "Иван Петров",
+  "phone": "+79161234567"
   "booking_date": "2026-09-10",
   "booking_time": "19:00",
   "guests": 4,
@@ -274,6 +275,7 @@ GET /bookings?date=2026-09-10
   {
     "id": 1,
     "name": "Иван Петров",
+    "phone": "+79161234567"
     "booking_date": "2026-09-10",
     "booking_time": "19:00",
     "guests": 4,
@@ -300,6 +302,7 @@ GET /bookings?date=2026-09-10
 {
   "id": 1,
   "name": "Иван Петров",
+  "phone": "+79161234567"
   "booking_date": "2026-09-10",
   "booking_time": "19:00",
   "guests": 4,
@@ -327,6 +330,7 @@ GET /bookings?date=2026-09-10
 {
   "id": 1,
   "name": "Иван Петров",
+  "phone": "+79161234567"
   "booking_date": "2026-09-10",
   "booking_time": "19:00",
   "guests": 4,
