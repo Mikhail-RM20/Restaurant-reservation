@@ -28,7 +28,7 @@ class BookingCreateIn(BaseModel):
     name: str = Field(
         ...,
         title="Имя человека. / Name person.",
-        example="Максим",
+        examples=["Максим"],
         min_length=2,
         pattern=r"^[A-Za-zА-Яа-яЁё\s-]+$",
     )
