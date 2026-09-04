@@ -55,8 +55,6 @@ async def get_information_about_bookings(
                 "Фильтр по дате не применяется, возвращаем все брони"
             )
 
-        # Отладка: посмотри, какой SQL уходит в БД
-        print("SQL:", stmt.compile(compile_kwargs={"literal_binds": True}))
 
         result = await db.execute(stmt)
         bookings = result.all()
